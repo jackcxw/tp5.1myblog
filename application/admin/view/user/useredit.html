@@ -1,0 +1,139 @@
+
+{extend name="base" /}
+
+{block name="title"}用户修改{/block}
+
+
+{block name="main"}
+<!-- 内容区域 -->
+
+    <div class="tpl-content-wrapper">
+        <div style="padding:20px">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title am-fl" style="color:#3399FF">修改用户资料</div>
+                            <div class="widget-function am-fr">
+                                <a href="/admin/userlist" class="am-icon-close">返回列表</a>
+                            </div>
+                        </div>
+                        <div class="widget-body am-fr">
+
+                            <form class="am-form tpl-form-line-form" method="post" id="myform" enctype="multipart/form-data">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">用户名 <span class="tpl-form-line-small-title">username</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$user.username?$user.username:''}" name="username">
+                                    </div>
+                                    <input type="hidden" value="{$user.id}" name="id">
+
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">密码 <span class="tpl-form-line-small-title">password</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" value="{$user.password?$user.password:''}" name="password" >
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">用户头像 <span class="tpl-form-line-small-title">photo</span></label>
+                                        <div class="am-u-sm-9">
+                                            <img src="{$user.photo}">
+                                            <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                                <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                                            <input type="hidden" value="{$user.photo}" name="photo">
+                                            <input id="doc-form-file" type="file" multiple name="newpic" value=""><br>
+                                            <div id="file-list"></div>
+                                        </div>
+                                </div>
+
+                                <script>
+                                    $(function() {
+                                        $('#doc-form-file').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list').html(fileNames);
+                                        });
+                                    });
+                                </script>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">角色组<span class="tpl-form-line-small-title">role</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select data-am-selected="{searchBox: 1}" style="display: none;" name="role">
+                                            <option value="0" <?php if($user['role']==0){?>selected<?php };?>>普通会员</option>
+                                            <option value="1" <?php if($user['role']==1){?>selected<?php };?>>黄金会员</option>
+                                            <option value="2" <?php if($user['role']==2){?>selected<?php };?>>白金会员</option>
+                                            <option value="3" <?php if($user['role']==3){?>selected<?php };?>>钻石会员</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">手机号 <span class="tpl-form-line-small-title">phone</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" placeholder="输入手机号" name="phone" value="{$user.phone?$user.phone:''}" >
+
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">邮箱 <span class="tpl-form-line-small-title">email</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" placeholder="输入邮箱" name="email"  value="{$user.email?$user.email:''}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success " id="sub">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#sub").on("click",function(){
+                $("#myform").ajaxSubmit(
+                        //ajax表单提交
+                        {
+                            url: "/api/admin/useredit",
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSubmit: function () {},
+                            success: function (return_msg) {
+                                if (return_msg.code == 200) {
+                                    AMUI.dialog.alert({
+                                        title: '修改成功',
+                                        content: '返回本页',
+                                        onConfirm: function() {
+                                            location.reload();
+                                        }
+                                    });
+
+                                } else {
+                                    AMUI.dialog.alert({
+                                        title: '错误信息',
+                                        content: return_msg.msg,
+                                        onConfirm: function() {
+                                            console.log('close');
+                                        }
+                                    });
+                                }
+                            },
+                            clearForm: false,//禁止清楚表单
+                            resetForm: false //禁止重置表单
+                        });
+            })
+        </script>
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+

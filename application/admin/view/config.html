@@ -1,0 +1,194 @@
+
+{extend name="base" /}
+
+{block name="title"}网站配置{/block}
+
+
+{block name="main"}
+<!-- 内容区域 -->
+
+    <div class="tpl-content-wrapper">
+        <div style="padding:20px">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title am-fl" style="color:#3399FF">网站配置</div>
+                            <div class="widget-function am-fr">
+                                <a href="javascript:;" class="am-icon-cog"></a>
+                            </div>
+                        </div>
+                        <div class="widget-body am-fr">
+
+                            <form class="am-form tpl-form-line-form" method="post" id="myform" enctype="multipart/form-data">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">网站名称 <span class="tpl-form-line-small-title">webname</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name"  name="webname" value="{$config->webname?$config->webname:''}">
+                                        </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">地址 <span class="tpl-form-line-small-title">address</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="" value="{$config->address?$config->address:''}" name="address">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">电话 <span class="tpl-form-line-small-title">phone</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  value="{$config->phone?$config->phone:''}" name="phone">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">邮箱 <span class="tpl-form-line-small-title">email</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  value="{$config->email?$config->email:''}" name="email">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">腾讯qq <span class="tpl-form-line-small-title">qq</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  value="{$config->qq?$config->qq:''}" name="qq">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">微信 <span class="tpl-form-line-small-title">wechat</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  value="{$config->wechat?$config->wechat:''}" name="wechat">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">微博 <span class="tpl-form-line-small-title">weibo</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  value="{$config->weibo?$config->weibo:''}" name="weibo">
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">网站logo <span class="tpl-form-line-small-title">logo</span></label>
+                                    <div class="am-u-sm-9">
+                                        <img src="{$config->logo}">
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                                        <input id="doc-form-file" type="file" multiple name="logoimg" value=""><br>
+                                        <input type="hidden" value="{$config->logo?$config->logo:''}" name="logo">
+                                        <div id="file-list"></div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">网站头标 <span class="tpl-form-line-small-title">icon</span></label>
+                                    <div class="am-u-sm-9">
+                                        <img src="{$config->icon}">
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                                        <input id="doc-form-file1" type="file" multiple name="iconimg" value =""><br>
+                                        <input type="hidden" value="{$config->icon?$config->icon:''}" name="icon">
+                                        <div id="file-list1"></div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">首页轮播 <span class="tpl-form-line-small-title">banner</span></label>
+                                    <div class="am-u-sm-9">
+                                        <img src="{$config->banner}" style="width: 160px;height: 80px;">
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                                        <input id="doc-form-file2" type="file" multiple name="bannerimg" value =""><br>
+                                        <input type="hidden" value="{$config->banner?$config->banner:''}" name="banner">
+                                        <div id="file-list2"></div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">座右铭 <span class="tpl-form-line-small-title">motto</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  name="motto" value ="{$config->motto?$config->motto:''}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">小编闲语 <span class="tpl-form-line-small-title">motto</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input"  name="remarks" value ="{$config->remarks?$config->remarks:''}">
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function() {
+                                        $('#doc-form-file').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list').html(fileNames);
+                                        });
+                                    });
+                                    $(function() {
+                                        $('#doc-form-file1').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list1').html(fileNames);
+                                        });
+                                    });
+                                    $(function() {
+                                        $('#doc-form-file2').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list2').html(fileNames);
+                                        });
+                                    });
+                                </script>
+
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success " id="sub">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#sub").on("click",function(){
+                $("#myform").ajaxSubmit(
+                        //ajax表单提交
+                        {
+                            url: "/api/admin/config",
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSubmit: function () {},
+                            success: function (return_msg) {
+                                if (return_msg.code == 200) {
+                                    AMUI.dialog.alert({
+                                        title: '成功',
+                                        content: return_msg.msg,
+                                        onConfirm: function() {
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    AMUI.dialog.alert({
+                                        title: '错误信息',
+                                        content: return_msg.msg,
+                                        onConfirm: function() {
+                                            console.log('close');
+                                        }
+                                    });
+                                }
+                            },
+                            clearForm: false,//禁止清楚表单
+                            resetForm: false //禁止重置表单
+                        });
+            })
+        </script>
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+

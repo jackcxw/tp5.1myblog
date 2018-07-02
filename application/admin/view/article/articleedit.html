@@ -1,0 +1,158 @@
+
+{extend name="base" /}
+
+{block name="title"}文章修改{/block}
+
+
+{block name="main"}
+<!-- 内容区域 -->
+<!-- 配置文件 -->
+<script type="text/javascript" src="__ADMIN__/ue/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__ADMIN__/ue/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container');
+</script>
+    <div class="tpl-content-wrapper">
+        <div style="padding:20px">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title am-fl" style="color:#3399FF">修改文章</div>
+                            <div class="widget-function am-fr">
+                                <a href="/admin/article" class="am-icon-close">返回列表</a>
+                            </div>
+                        </div>
+                        <div class="widget-body am-fr">
+
+                            <form class="am-form tpl-form-line-form" method="post" id="myform" enctype="multipart/form-data">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">title</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$article.title?$article.title:请输入标题}" name="title">
+                                    </div>
+                                    <input type="hidden" value="{$article.id}" name="id">
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">英文标识 <span class="tpl-form-line-small-title">Englishname</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$article.englishname?$article.englishname:请输入英文标题}" name="englishname">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">关键字 <span class="tpl-form-line-small-title">keywords</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" name="keywords" value="{$article.keywords?$article.keywords:请输入关键字}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">缩略图 <span class="tpl-form-line-small-title">thumb</span></label>
+                                    <div class="am-u-sm-9">
+                                        <img src="{$article.thumb}" style="width: 600px;height:300px;">
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>
+                                        <input id="doc-form-file" type="file" multiple name="thumbimg" value=""><br>
+                                        <input type="hidden" name="thumb" value="{$article.thumb?$article.thumb:''}">
+                                        <div id="file-list"></div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">摘要 <span class="tpl-form-line-small-title">abstract</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" value="{$article.abstract?$article.abstract:请输入摘要}" name="abstract">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">author</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" value="{$article.author?$article.author:请输入作者}" name="author">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">文章分类<span class="tpl-form-line-small-title">catid</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select data-am-selected="{searchBox: 1}" style="display: none;" name="catid">
+                                            {volist name="category" id="vo"}
+                                            {if $article.catid==$vo.id}
+                                            <option value="{$vo.id}" selected>{$vo.catname}</option>
+                                            {else /}
+                                            <option value="{$vo.id}">{$vo.catname}</option>
+                                            {/if}
+
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-3 am-form-label">内容 <span class="tpl-form-line-small-title">content</span></label>
+                                    <div class="am-u-sm-9">
+                                        <script id="container" name="content" type="text/plain"><?php echo htmlspecialchars_decode($article['content']);?></script>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success " id="sub">提交</button>
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function() {
+                                        $('#doc-form-file').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list').html(fileNames);
+                                        });
+                                    });
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#sub").on("click",function(){
+                $("#myform").ajaxSubmit(
+                        //ajax表单提交
+                        {
+                            url: "/api/admin/articleedit",
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSubmit: function () {},
+                            success: function (return_msg) {
+                                if (return_msg.code == 200) {
+                                    AMUI.dialog.alert({
+                                        title: '修改成功',
+                                        content: '返回本页',
+                                        onConfirm: function() {
+                                            location.reload();
+                                        }
+                                    });
+
+                                } else {
+                                    AMUI.dialog.alert({
+                                        title: '错误信息',
+                                        content: return_msg.msg,
+                                        onConfirm: function() {
+                                            console.log('close');
+                                        }
+                                    });
+                                }
+                            },
+                            clearForm: false,//禁止清楚表单
+                            resetForm: false //禁止重置表单
+                        });
+            })
+        </script>
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+

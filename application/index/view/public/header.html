@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <?php
+        $menu = Db::table('api_homemenu')->where('url',$_SERVER["REQUEST_URI"])->find();
+    ?>
+    <title><?php echo $menu['name'];?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="__HOME__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="__HOME__/css/style.css?id=1" rel='stylesheet' type='text/css' />
+    <script src="__HOME__/js/jquery-1.11.1.min.js"></script>
+    <script src="__HOME__/js/bootstrap.min.js"></script>
+    <!-- animation-effect -->
+    <link href="__HOME__/css/animate.min.css" rel="stylesheet">
+    <script src="__HOME__/js/wow.min.js"></script>
+    <link href="__HOME__/css/cxw.css" rel="stylesheet">
+    <script src="__HOME__/layer/layer.js"></script>
+    <script src="__AJS__/jquery.form.js"></script>
+
+</head>
+<body>
+<div class="header" id="ban">
+    <div class="container">
+        <div class="head-left wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+            <div class="header-search">
+                <div class="search">
+                    <input class="search_box" type="checkbox" id="search_box">
+                    <label class="icon-search" for="search_box"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></label>
+                    <div class="search_form">
+                        <form  method="get" id="search_article" action="/search">
+                            <input type="text" name="search" placeholder="搜你想要..." value="搜你想要...">
+                            <input type="submit" value="走你">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_right wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+            <nav class="navbar navbar-default">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                {include file="public/menu"}
+                <!-- /.navbar-collapse -->
+            </nav>
+        </div>
+        <div class="nav navbar-nav navbar-right social-icons wow fadeInRight animated animated" style="width: 600px;text-align:right">
+            <?php if(session('home_username')){ ?>
+            欢迎&nbsp;&nbsp;&nbsp;&nbsp<span style="font-weight:bold"><?php echo session('home_username');?></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/out">登出</a>
+            <?php }?>
+        </div>
+
+    </div>
+</div>
+<!--start-main-->
+<div class="header-bottom">
+    <div class="container">
+        <div class="logo wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+            <h1><a href="index.html">{$config.webname}</a></h1>
+            <p><label class="of"></label>{$config.motto}<label class="on"></label></p>
+        </div>
+    </div>
+</div>
+<!-- banner -->
+
+<div class="banner" style="background:url('{$config.banner}') no-repeat 0px 0px;">
+</div>
+<a name="here"></a>
+<script>
+    if(!window.location.hash&&window.location.pathname!='/') {
+    window.location.hash = 'here';
+}</script>

@@ -1,0 +1,91 @@
+
+{extend name="base" /}
+
+{block name="title"}用户列表{/block}
+
+
+{block name="main"}
+<script>
+    function adduser(){
+        window.location.href="/admin/useradd"
+    }
+    function see(id){
+
+        window.location.href="/admin/usersee?id="+id
+    }
+    function edit(id){
+
+        window.location.href="/admin/useredit?id="+id
+    }
+    function shanchu(id){
+        $.ajax({
+            type: 'POST',
+            url: "/api/admin/userdelete",
+            data: {id:id},
+            success: function(return_msg){
+                if (return_msg.code == 200) {
+                    AMUI.dialog.alert({
+                        title: '删除成功',
+                        content: '返回列表',
+                        onConfirm: function() {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    AMUI.dialog.alert({
+                        title: '删除失败',
+                        content: return_msg.msg,
+                        onConfirm: function() {
+                            console.log('close');
+                        }
+                    });
+                }
+            },
+            dataType: 'json'
+        });
+
+    }
+</script>
+    <!-- 内容区域 -->
+    <div class="tpl-content-wrapper">
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="am-btn am-btn-primary am-radius" onclick="adduser()">新增用户</button>
+        <br><br>
+        <table class="am-table am-table-striped am-table-hover">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>用户名称</th>
+                <th>用户电话</th>
+                <th>用户邮箱</th>
+                <th>用户ip</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name='users' id='user'}
+            <tr>
+                <td>{$user.id}</td>
+                <td>{$user.username?:'_'}</td>
+                <td>{$user.phone?:'_'}</td>
+                <td>{$user.email?:'_'}</td>
+                <td>{$user.ip?:'_'}</td>
+                <td>
+                    <button type="button" class="am-btn am-btn-secondary am-radius  am-btn-xs" onclick="see({$user.id})">查看</button>
+                    <button type="button" class="am-btn am-btn-warning am-radius  am-btn-xs" onclick="edit({$user.id})">修改</button>
+                    <button type="button" class="am-btn am-btn-danger am-radius  am-btn-xs" onclick="shanchu({$user.id})">删除</button>
+                </td>
+            </tr>
+          {/volist}
+            </tbody>
+        </table>
+        {$users|raw}
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+

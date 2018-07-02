@@ -1,0 +1,67 @@
+<div class="col-md-3 technology-right">
+
+
+    <div class="blo-top1">
+
+        <div class="tech-btm">
+            <div class="search-1">
+                <form action="/search" method="get">
+                    <input type="search" name="search" value="搜你想要..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '搜你想要...';}" required="">
+                    <input type="submit" value=" ">
+                </form>
+            </div>
+            <h4>外链信息港 </h4>
+            <?php
+            $outnews = Db::table('api_outnews')->order('id','desc')->limit(0,5)->select();
+            ?>
+            {foreach $outnews as $key =>$m}
+            <div class="blog-grids">
+                <div class="blog-grid-left">
+                    <a href="{$m.url}" target="_blank"><img src="{$m.thumb}" class="img-responsive" alt="{$m.descripition}"  title="{$m.descripition}"></a>
+                </div>
+                <div class="blog-grid-right">
+                    <h5><a href="{$m.url}" target="_blank">{$m.title}</a> </h5>
+                    <h7><a href="{$m.url}" target="_blank">{$m.descripition}</a> </h7>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            {/foreach}
+            <div class="insta">
+                <h4>发现 美好</h4>
+                <ul>
+                    <?php
+                    $findfine = Db::table('api_findfine')->order('id','desc')->limit(0,9)->select();
+                    ?>
+                    {foreach $findfine as $key => $f}
+                        <li><a id="pic{$key}" data-thumb="{$f.thumb}" data-title="{$f.title}" data-descripition="{$f.descripition}"><img src="{$f.thumb}" class="img-responsive" alt="" title="{$f.title}" style="cursor:pointer" onclick="img(<?php echo $key;?>)"></a></li>
+                    {/foreach}
+                </ul>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;嘈杂的生活中，总有一些事物会令我们回归本真</p>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<script>
+    function img(a){
+        var picture = 'pic'+a;
+        pinglun = document.getElementById(picture);
+        name = pinglun.dataset.title
+        descripition = pinglun.dataset.descripition
+        thumb = pinglun.dataset.thumb
+        var html = '<img src='+thumb+' class="img-responsive" alt="" style="width: 100%">'
+        layer.open({
+            type : 1,
+            title : '<span style="color: darkblue">作品：'+name+'（'+descripition+'）</span>',
+            closeBtn : 0,
+            shade: [0.001, '#393D49'],
+            area : '800px',
+            skin : 'layui-layer-nobg', //沒有背景色
+            shadeClose : true,
+            content : html
+        });
+    }
+
+</script>
+
+

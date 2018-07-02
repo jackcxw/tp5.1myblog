@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+	<title>博客内页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="" />
+	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<link href="__HOME__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<!-- Custom Theme files -->
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,600,700' rel='stylesheet' type='text/css'>
+	<link href="__HOME__/css/style.css?id=1" rel='stylesheet' type='text/css' />
+	<script src="__HOME__/js/jquery-1.11.1.min.js"></script>
+	<script src="__HOME__/js/bootstrap.min.js"></script>
+	<!-- animation-effect -->
+	<link href="__HOME__/css/animate.min.css" rel="stylesheet">
+	<script src="__HOME__/js/wow.min.js"></script>
+	<link href="__HOME__/css/cxw.css" rel="stylesheet">
+	<script src="__AJS__/jquery.form.js"></script>
+	<script src="__HOME__/layer/layer.js"></script>
+</head>
+<body>
+<div class="header" id="ban">
+	<div class="container">
+		<div class="head-left wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+			<div class="header-search">
+				<div class="search">
+					<input class="search_box" type="checkbox" id="search_box">
+					<label class="icon-search" for="search_box"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></label>
+					<div class="search_form">
+						<form action="#" method="post">
+							<input type="text" name="Search" placeholder="Search...">
+							<input type="submit" value="Send">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header_right wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				{include file="public/menu"}
+				<!-- /.navbar-collapse -->
+			</nav>
+		</div>
+		<div class="nav navbar-nav navbar-right social-icons wow fadeInRight animated animated" style="width: 600px;text-align:right">
+			<?php if(session('home_username')){ ?>
+			欢迎&nbsp;&nbsp;&nbsp;&nbsp<span style="font-weight:bold"><?php echo session('home_username');?></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/out">登出</a>
+			<?php }?>
+		</div>
+
+	</div>
+</div>
+<!--start-main-->
+<div class="header-bottom">
+	<div class="container">
+		<div class="logo wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+			<h1><a href="index.html">{$config.webname}</a></h1>
+			<p><label class="of"></label>{$config.motto}<label class="on"></label></p>
+		</div>
+	</div>
+</div>
+<!-- banner -->
+
+<div class="banner" style="background:url('{$config.banner}') no-repeat 0px 0px;">
+</div>
+<a name="here"></a>
+<script>
+	if(!window.location.hash&&window.location.pathname!='/') {
+		window.location.hash = 'here';
+	}</script>
+	<!-- technology-left -->
+	<div class="technology">
+	<div class="container">
+		<div class="col-md-9 technology-left">
+			<div class="agileinfo">
+
+		  <h2 class="w3">{$article['catname']}</h2>
+			<div class="single">
+			    <div class="b-bottom">
+
+			      <h5 class="top">{$article['title']}</h5>
+					<h6 class="top">作者：{$article['author']}</h6>
+					{if $article['thumb']}
+					<img src="{$article['thumb']}" class="img-responsive" alt="">
+					{/if}
+				   <p class="sub"><?php echo htmlspecialchars_decode($article['content']);?></p><br>
+			      <p>发布日期：<?php echo date('Y-m-d',$article['addtime']);?><span class="glyphicon glyphicon-comment"></span>{$article['pinglun']}<span class="glyphicon glyphicon-eye-open"></span>{$article['see']}</p>
+				</div>
+			 </div>
+						<div class="response">
+					<h4>留言板</h4>
+							<?php $comments = Db::table('api_comments')->where('articleid',$article['id'])->where('parent',0)->where('isdel',0)->select(); ?>
+							{if $comments}
+							{foreach $comments as $key => $c}
+
+							<div class="media response-info">
+								<div class="media-left response-text-left" style="font-weight: bold;text-align: center">
+									{if $c.uid}
+									<?php
+									$user = Db::table('api_user')->where('id',$c['uid'])->find();
+									$thumb =$user['photo'];
+									?>
+									{else /}
+									<?php $thumb = "__HOME__/images/face/".$c['headimg'].".png";?>
+									{/if}
+									<img src="{$thumb}" class="img-responsive" alt="" style="width:100%;">
+									<?php echo $num = $key+1;?>楼{if $c.uid}住户:{else /}游客:{/if}{$c.username}
+								</div>
+								<div class="media-body response-text-right" >
+									<p>{$c.content}</p>
+									<ul>
+										<li><?php echo date('m-d h:i:sa',$c['addtime']);?></li>
+										{if session('home_username')}
+										<li><a  data-id="{$c.id}"  data-username="{$c.username}" data-articleid="{$c.articleid}"onclick="soncomments(<?php echo $num;?>)" id="pinglun{$num}">回复</a></li>
+										{else /}
+										<li><a  data-id="{$c.id}"  data-username="{$c.username}" data-articleid="{$c.articleid}" onclick="soncommentsyk(<?php echo $num;?>)" id="pinglunyk{$num}">回复</a></li>
+										{/if}
+									</ul>
+									<hr>
+									<?php $soncomments = Db::table('api_comments')->where('parent',$c['id'])->where('isdel',0)->select();?>
+									{if $soncomments}
+									{foreach $soncomments as $key1 => $son}
+									<div class="media response-info">
+										<div class="media-left response-text-left">
+											{if $son.uid}
+											<?php
+												$user1 = Db::table('api_user')->where('id',$son['uid'])->find();
+											$thumb =$user1['photo'];
+											$usertype = '住户：';
+											?>
+											{else /}
+												<?php $thumb = "__HOME__/images/face/".$son['headimg'].".png";$usertype = '游客：';?>
+											{/if}
+											<img src="{$thumb}" class="img-responsive" alt="" style="width:100%;">
+											<?php echo $sonnum = $key1+1;?>户{$usertype}{$son.username}
+										</div>
+										<div class="media-body response-text-right">
+											<p>{$son.content}</p>
+											<ul>
+												<li><?php echo date('m-d h:i:sa',$son['addtime']);?></li>
+											</ul>
+										</div>
+										<div class="clearfix"> </div>
+										<hr>
+									</div>
+									{/foreach}
+									{/if}
+								</div>
+								<div class="clearfix"> </div>
+								<hr>
+							</div>
+							{/foreach}
+							{else /}
+							<div class="media response-info">
+								暂无评论，欢迎留言
+							</div>
+							{/if}
+
+
+				</div>	
+				<div class="coment-form">
+					<h4>留言</h4>
+					<form action="#" method="post" id="myform">
+						{if !session('home_username')}
+						<input type="text" value="昵称 " name="username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '昵称';}" required="">
+						<input type="email" value="邮箱" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '邮箱';}" required="">
+						{/if}
+						<input type="hidden" name="articleid" value="{$article['id']}">
+							<textarea  name="content" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '你的留言...';}" required="">你的留言...</textarea>
+						<input type="button" value="提 交" id="subthis">
+					</form>
+				</div>	
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<script>
+			$("#subthis").on("click",function(){
+				$("#myform").ajaxSubmit({
+					url: "/api/comments",
+					type: 'post',
+					dataType: 'json',
+					beforeSubmit: function () {},
+					success: function (return_msg) {
+						if (return_msg.code == 200) {
+							layer.msg(return_msg.msg);
+							setTimeout(function(){
+								window.location.reload();
+							},1000);
+						} else {
+							layer.msg(return_msg.msg);
+							console.log('close');die;
+						}
+					},
+					clearForm: false,//禁止清楚表单
+					resetForm: false //禁止重置表单
+				})
+			})
+			/*登陆用户回复留言*/
+			function soncomments(num){
+				pl = 'pinglun'+num
+				/*获取父id*/
+				pinglun = document.getElementById(pl);
+				parentid = pinglun.dataset.id
+				fathername = pinglun.dataset.username
+				articleid = pinglun.dataset.articleid
+				layer.prompt({
+					formType: 2,
+					value: '请输入...',
+					title: '回复'+fathername+'的留言',
+					area: ['300', '200px'] //自定义文本域宽高
+				}, function(value, index, elem){
+					content = value
+					$.ajax({
+						type:"POST",
+						url:'/api/soncomments',
+						dataType: 'json',
+						data:"articleid="+articleid+"&parentid="+parentid+"&content="+content,
+						success: function (return_msg) {
+							if (return_msg.code == 200) {
+								layer.msg(return_msg.msg, {
+									icon: 1,
+									time: 2000 //2秒关闭（如果不配置，默认是3秒）
+								}, function(){
+									location.reload();
+								});
+							} else {
+								layer.msg(return_msg.msg, {
+									icon: 2,
+									time: 2000 //2秒关闭（如果不配置，默认是3秒）
+								}, function(){
+									layer.close(index);
+								});
+
+
+							}
+						},
+						clearForm: false,//禁止清楚表单
+						resetForm: false //禁止重置表单
+					})
+				});
+			}
+			/*游客回复留言*/
+			function soncommentsyk(num){
+				pl = 'pinglunyk'+num
+				/*获取父id*/
+				pinglun1 = document.getElementById(pl);
+				parentidyk = pinglun1.dataset.id
+				fathernameyk = pinglun1.dataset.username
+				articleidyk = pinglun1.dataset.articleid
+				layer.prompt({
+					formType: 2,
+					content:"<div class=''><input type='text' class='layui-layer-input' value='' placeholder='游客昵称' name='nickname'><br><input type='text' class='layui-layer-input'  placeholder='游客邮箱' name='email'><br><textarea class='layui-layer-input' style='width:230px;margin-top:5px;' placeholder='回复内容'></textarea></div>",
+					title: '回复'+fathernameyk+'的留言',
+					area: ['300', '200px'], //自定义文本域宽高
+					yes: function(index, layero){
+					//按钮【按钮一】的回调
+					nickname = $(layero).find("input[name='nickname']").val();
+					email = $(layero).find("input[name='email']").val();
+					content1 = $(layero).find("textarea").val();
+						$.ajax({
+							type:"POST",
+							url:'/api/yksoncomments',
+							dataType: 'json',
+							data:"articleid="+articleidyk+"&parentid="+parentidyk+"&content="+content1+"&username="+nickname+"&email="+email,
+							success: function (return_msg) {
+								if (return_msg.code == 200) {
+									layer.msg(return_msg.msg, {
+										icon: 1,
+										time: 2000 //2秒关闭（如果不配置，默认是3秒）
+									}, function(){
+										location.reload();
+									});
+								} else {
+									layer.msg(return_msg.msg, {
+										icon: 2,
+										time: 2000 //2秒关闭（如果不配置，默认是3秒）
+									}, function(){
+										layer.close(index);
+									});
+
+
+								}
+							},
+							clearForm: false,//禁止清楚表单
+							resetForm: false //禁止重置表单
+						})
+				}
+				});
+			}
+		</script>
+		<!-- technology-right -->
+		{include file="/public/right"}
+		<!-- technology-right -->
+	</div>
+</div>
+{include file="/public/footer"}
+</body>
+</html>

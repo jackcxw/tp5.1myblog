@@ -1,0 +1,20 @@
+<?php
+         $menu = Db::table('api_homemenu')->order('id','asc')->select();
+?>
+<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+    <nav class="link-effect-7" id="link-effect-7">
+        <ul class="nav navbar-nav">
+           <?php if(session('home_username')){
+             unset($menu['4']);
+             unset($menu['5']);
+            };?>
+            {foreach $menu as $key =>$m}
+                {if $_SERVER["REQUEST_URI"]==$m.url}
+                <li class="active act"><a href="{$m.url}">{$m.name}</a></li>
+                {else /}
+                <li><a href="{$m.url}">{$m.name}</a></li>
+                {/if}
+            {/foreach}
+        </ul>
+    </nav>
+</div>

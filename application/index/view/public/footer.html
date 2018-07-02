@@ -1,0 +1,71 @@
+
+<div class="footer">
+    <div class="container">
+      <?php  $gyxb = Db::table('api_article')->find(5);?>
+        <div class="col-md-4 footer-left">
+            <h4>关于 博主</h4>
+            <p>{$gyxb.abstract}</p>
+            <div class="bht1">
+                <a href="/article/5">查看 原文</a>
+            </div>
+        </div>
+        <div class="col-md-4 footer-middle">
+            <h4>链接 广告</h4>
+            <div class="mid-btm">
+                <p>AcFun是一家弹幕视频网站,致力于为每一个人带来欢乐。... 252人在A站,不外乎笑三十一笑,笑着笑着就停不下</p>
+                <a href="http://www.acfun.cn/" target="_blank">AcFun弹幕视频网</a>
+            </div>
+
+            <p>bilibili是国内知名的视频弹幕网站,这里有最及时的动漫新番,最棒的ACG氛围,最有创意的Up主。大家可以在这里找到许多欢乐。</p>
+            <a href="https://www.bilibili.com/" target="_blank">哔哩哔哩动画</a>
+
+        </div>
+        <div class="col-md-4 footer-right">
+            <h4>你想多我说</h4>
+            <p>站内宣传，投诉啦。或者你有什么有趣的问题，或者文章都可以和小编说啦，小编经过审核是可以帮忙发表的。</p>
+            <div class="name">
+                <form method="post" id="myform">
+                    <textarea  name="content" onfocus="this.value = '';"  required="">你的留言...（没有注册过的游客，提交留言记得留下联系方式哦）</textarea>
+                    <input type="button" value="提交" id="subfoot">
+                </form>
+                <script>
+                    $("#subfoot").on("click",function(){
+                        $("#myform").ajaxSubmit({
+                            url: "/api/feedback",
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSubmit: function () {},
+                            success: function (return_msg) {
+                                if (return_msg.code == 200) {
+                                    layer.msg(return_msg.msg, {
+                                        icon: 1,
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                    }, function(){
+                                        setTimeout(function(){
+                                            window.location.reload();
+                                        },2000);
+                                    });
+                                } else {
+                                    layer.msg(return_msg.msg);
+                                    console.log('close');
+                                }
+                            },
+                            clearForm: false,//禁止清楚表单
+                            resetForm: false //禁止重置表单
+                        })
+                    })
+                </script>
+            </div>
+            <div class="clearfix"> </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="copyright">
+    <div class="container">
+        <p>Copyright &copy; 2018 Cxw Systems Incorporated. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

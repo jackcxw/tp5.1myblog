@@ -1,0 +1,52 @@
+<div class="left-sidebar">
+    <!-- 用户信息 -->
+    <div class="tpl-sidebar-user-panel">
+        <div class="tpl-user-panel-slide-toggleable">
+            <div class="tpl-user-panel-profile-picture">
+                <img src="<?php echo session('admin_pic');?>" alt="">
+            </div>
+                            <span class="user-panel-logged-in-text">
+                      <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
+                     <?php echo session('admin_username');?>
+                  </span>
+            <a href="/admin/adminer" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
+        </div>
+    </div>
+
+    <!-- 菜单 -->
+    <ul class="sidebar-nav">
+        <?php
+        $menu = Db::table('api_menu')->where('grade',0)->select();
+         foreach ($menu as $m){ ?>
+        <li class="sidebar-nav-link">
+            <?php
+            $sonmenu = Db::table('api_menu')->where('grade',$m['id'])->select();
+            ?>
+            <?php if($sonmenu){?>
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-{$m.icon} sidebar-nav-link-logo"></i> {$m.menuname}
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <?php foreach ($sonmenu as $sm){?>
+                        <li class="sidebar-nav-link">
+                            <a href="{$sm.url}" <?php if($sm['url']==$_SERVER["REQUEST_URI"]){?>
+                            class ="active"
+                            <?php }?>>
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> {$sm.menuname}
+                            </a>
+                        </li>
+                        <?php }?>
+                    </ul>
+             <?php }else{?>
+                    <a href="{$m.url}" <?php if($m['url']==$_SERVER["REQUEST_URI"]){?>
+            class ="active"
+            <?php }?> >
+                        <i class="am-icon-{$m.icon} sidebar-nav-link-logo" ></i> {$m.menuname}
+                    </a>
+            <?php }?>
+
+        </li>
+        <?php }?>
+    </ul>
+</div>

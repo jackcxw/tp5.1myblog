@@ -1,0 +1,88 @@
+
+{extend name="base" /}
+
+{block name="title"}发现美好{/block}
+
+
+{block name="main"}
+<script>
+    function addartcle(){
+        window.location.href="/admin/findfineadd"
+    }
+    function edit(id){
+
+        window.location.href="/admin/findfineedit?id="+id
+    }
+    function shanchu(id){
+        $.ajax({
+            type: 'POST',
+            url: "/api/admin/findfinedelete",
+            data: {id:id},
+            success: function(return_msg){
+                if (return_msg.code == 200) {
+                    AMUI.dialog.alert({
+                        title: '删除成功',
+                        content: '返回列表',
+                        onConfirm: function() {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    AMUI.dialog.alert({
+                        title: '删除失败',
+                        content: return_msg.msg,
+                        onConfirm: function() {
+                            console.log('close');
+                        }
+                    });
+                }
+            },
+            dataType: 'json'
+        });
+
+    }
+</script>
+    <!-- 内容区域 -->
+    <div class="tpl-content-wrapper">
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="am-btn am-btn-primary am-radius" onclick="addartcle()">新增发现美好</button>
+        <br><br>
+        <table class="am-table am-table-striped am-table-hover">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>标题</th>
+                <th>描述</th>
+                <th>缩略图</th>
+                <th>浏览次数</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name='findfine' id='a'}
+            <tr>
+                <td>{$a.id}</td>
+                <td >{$a.title?:'_'}</td>
+                <td>{$a.descripition?:'_'}</td>
+                <td><img src="{$a.thumb?:'_'}" style="width: 160px;height: 80px;"/></td>
+                <td>{$a.see?:'_'}</td>
+                <td><?php echo date("Y-m-d H:i",$a['addtime']); ?></td>
+                <td>
+                    <button type="button" class="am-btn am-btn-warning am-radius  am-btn-xs" onclick="edit({$a.id})">修改</button>
+                    <button type="button" class="am-btn am-btn-danger am-radius  am-btn-xs" onclick="shanchu({$a.id})">删除</button>
+                </td>
+            </tr>
+          {/volist}
+            </tbody>
+        </table>
+        {$findfine|raw}
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+

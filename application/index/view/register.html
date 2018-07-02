@@ -1,0 +1,75 @@
+{include file="public/header"}
+<!--start-main-->
+<!-- technology-left -->
+<div class="technology">
+	<div class="container">
+		<div class="col-md-9 technology-left">
+			<div class="contact-section">
+				<h2 class="w3">注册</h2>
+
+
+				<div class="contact-grids">
+					<div class="col-md-8 contact-grid">
+
+						<p>为梦想插上翅膀，为翅膀锻炼肱二头肌</p>
+						<div id="errormsg" style="color: red"></div><br>
+						<form action="#" method="post" id="myform">
+							邮箱账户<input type="text" name="email" value="邮箱" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '邮箱';}" required=""><br>
+							密码<input type="password" name="password" value="密码" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '密码';}" required=""><br>
+							昵称<input type="text" name="username" value="昵称" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '昵称';}" required=""><br>
+							<input type="button" value="注册" id="subuser">
+						</form>
+					</div>
+					<div class="col-md-4 contact-grid1">
+						<h4>博主每日推荐</h4>
+						<div class="contact-top">
+
+
+							<div class="clearfix"></div>
+						</div>
+						<ul>
+							<li><i class="glyphicon glyphicon-music" aria-hidden="true"></i> 关于兰州</li>
+							<li><i class="glyphicon glyphicon-film" aria-hidden="true"></i> 教父</li>
+							<li><i class="glyphicon glyphicon-camera" aria-hidden="true"></i> 照片推荐</li>
+							<li><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> 文章推荐</li>
+						</ul>
+
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="google-map">
+					<img src="__HOME__/images/t1.jpg">
+				</div>
+
+			</div>
+		</div>
+		<script>
+			$("#subuser").on("click",function(){
+				$("#myform").ajaxSubmit({
+					url: "/api/blogregister",
+					type: 'post',
+					dataType: 'json',
+					beforeSubmit: function () {},
+					success: function (return_msg) {
+						if (return_msg.code == 200) {
+							layer.msg(return_msg.msg, {
+								icon: 1,
+								time: 2000 //2秒关闭（如果不配置，默认是3秒）
+							}, function(){
+								window.location.href='http://www.cxw.fun/';
+							});
+						} else {
+							$('#errormsg').html(return_msg.msg);die;
+						}
+					},
+					clearForm: false,//禁止清楚表单
+					resetForm: false //禁止重置表单
+				})
+			})
+		</script>
+		<!-- technology-right -->
+		{include file="public/right"}
+		<!-- technology-right -->
+	</div>
+</div>
+{include file="public/footer"}

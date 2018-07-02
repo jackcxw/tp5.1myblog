@@ -1,0 +1,62 @@
+{include file='public/header'}
+<script>
+	new WOW().init();
+</script>
+	<!--start-main-->
+	<!-- technology-left -->
+	<div class="technology">
+	<div class="container">
+		<div class="col-md-9 technology-left">
+		<div class="tech-no">
+			{foreach $article as $key =>$a}
+			<div class="wthree">
+				{if $a.thumb==""}
+				<div class="col-md-12 wthree-right wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+					<h3><a href="/article/{$a.id}">{$a.title}</a></h3>
+					<h6><span style="color: #2a8efa">{$a.author} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date('Y-m-d',$a['addtime']);?> <div style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;{$a.see}浏览&nbsp;&nbsp;&nbsp;&nbsp;{$a.pinglun}评论</div></h6>
+					<p>{$a.abstract}</p>
+					<div class="bht1">
+						<a href="/article/{$a.id}">查看详情</a>
+					</div>
+					<div class="soci">
+						<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+						<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</div>
+					<div class="clearfix"></div>
+
+				</div>
+				<div class="clearfix"></div>
+				{else /}
+				<div class="col-md-4 wthree-left wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+					<div class="tch-img">
+						<a href="/article/{$a.id}"><img src="{$a.thumb}" class="img-responsive" alt=""></a>
+					</div>
+				</div>
+				<div class="col-md-8 wthree-right wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+					<h3><a href="/article/{$a.id}">{$a.title}</a></h3>
+					<h6><span style="color: #2a8efa">{$a.author} </span>&nbsp;&nbsp;<?php echo date('Y-m-d',$a['addtime']);?> <div style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;{$a.see}浏览&nbsp;&nbsp;&nbsp;&nbsp;{$a.pinglun}评论</div></h6>
+					<p>{$a.abstract}</p>
+					<div class="bht1">
+						<a href="/article/{$a.id}">查看详情</a>
+					</div>
+					<div class="soci">
+						<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+						<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</div>
+					<div class="clearfix"></div>
+
+				</div>
+				<div class="clearfix"></div>
+				{/if}
+			</div>
+			{/foreach}
+			{$article|raw}
+		</div>
+
+		</div>
+		<!-- technology-right -->
+		{include file="public/right"}
+		<!-- technology-right -->
+	</div>
+</div>
+{include file="public/footer"}

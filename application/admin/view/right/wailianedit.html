@@ -1,0 +1,117 @@
+
+{extend name="base" /}
+
+{block name="title"}外链修改{/block}
+
+
+{block name="main"}
+    <div class="tpl-content-wrapper">
+        <div style="padding:20px">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title am-fl" style="color:#3399FF">外链修改</div>
+                            <div class="widget-function am-fr">
+                                <a href="/admin/wailian" class="am-icon-close">返回列表</a>
+                            </div>
+                        </div>
+                        <div class="widget-body am-fr">
+
+                            <form class="am-form tpl-form-line-form" method="post" id="myform" enctype="multipart/form-data">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">title</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$outnews.title?$outnews.title:请输入标题}" name="title">
+                                    </div>
+                                    <input type="hidden" value="{$outnews.id}" name="id">
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">地址 <span class="tpl-form-line-small-title">url</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$outnews.url?$outnews.url:请输入地址}" name="url">
+                                    </div>
+                                    <input type="hidden" value="{$outnews.id}" name="id">
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">描述 <span class="tpl-form-line-small-title">descripition</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" value="{$outnews.descripition?$outnews.descripition:请输入描述}" name="descripition">
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-u-sm-3 am-form-label">缩略图 <span class="tpl-form-line-small-title">thumb</span></label>
+                                    <div class="am-u-sm-9">
+                                        <img src="{$outnews.thumb}" style="width: 600px;height: 300px;">
+                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>
+                                        <input id="doc-form-file" type="file" multiple name="thumbimg" value=""><br>
+                                        <input type="hidden" name="thumb" value="{$outnews.thumb?$outnews.thumb:''}">
+                                        <div id="file-list"></div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success " id="sub">提交</button>
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function() {
+                                        $('#doc-form-file').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list').html(fileNames);
+                                        });
+                                    });
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#sub").on("click",function(){
+                $("#myform").ajaxSubmit(
+                        //ajax表单提交
+                        {
+                            url: "/api/admin/wailianedit",
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSubmit: function () {},
+                            success: function (return_msg) {
+                                if (return_msg.code == 200) {
+                                    AMUI.dialog.alert({
+                                        title: '修改成功',
+                                        content: '返回本页',
+                                        onConfirm: function() {
+                                            location.reload();
+                                        }
+                                    });
+
+                                } else {
+                                    AMUI.dialog.alert({
+                                        title: '错误信息',
+                                        content: return_msg.msg,
+                                        onConfirm: function() {
+                                            console.log('close');
+                                        }
+                                    });
+                                }
+                            },
+                            clearForm: false,//禁止清楚表单
+                            resetForm: false //禁止重置表单
+                        });
+            })
+        </script>
+    </div>
+{/block}
+{block name="footer"}{/block}
+
+
+
+
+
+
